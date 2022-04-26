@@ -1,0 +1,54 @@
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav .logo {
+  height: 60px;
+}
+
+#sitemap .container-xxl {
+  padding: 80px 0;
+}
+
+#sitemap .container-xxl .row .h5 {
+  color: #162446;
+}
+
+#sitemap .container-xxl .row .small {
+  color: #848a96;
+}
+
+#sitemap .container-xxl .row .right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+#sitemap .container-xxl .row .right .inner ul li:first-child {
+  padding-bottom: 10px;
+  font-weight: 500;
+}
+
+#copyright .container-fluid {
+  height: 50px;
+  background-color: #f3f4f6;
+}
+
+.color-1 {
+  color: #6366f1;
+}
+
+.bg-color-1 {
+  background-color: #e0e7ff;
+}
+/*# sourceMappingURL=shopping.css.map */
