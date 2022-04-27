@@ -51,12 +51,15 @@ class ProductController extends Controller
             'product_price' =>  $request->product_price,
         ]);
 
-        foreach($request->second_img as $index => $element){
-            $path = FilesController::imgUpload($element,'product');
-            Product_img::create([
-                'img_path' => $path,
-                'product_id' => $product->id,
-            ]);
+        if($request->hasfile('second_img')){
+            foreach($request->second_img as $index => $element){
+                $path = FilesController::imgUpload($element,'product');
+                Product_img::create([
+                    'img_path' => $path,
+                    'product_id' => $product->id,
+                ]);
+            }
+
         }
 
         return redirect('/product');
@@ -91,6 +94,19 @@ class ProductController extends Controller
             $product->img_path = $path;
         }
 
+        //次要圖片處理
+        if($request->hasfile('second_img')){
+            foreach ($request->second_img as $index => $element){
+                $path = FilesController::imgUpload($element, 'product');
+                Product_img::create([
+                    'img_path' => $path,
+                    'product_id' => $product->id,
+                ]);
+            }
+        }
+
+
+
         $product->product_name = $request->product_name;
         $product->product_detail = $request->product_detail;
         $product->product_qty = $request->product_qty;
@@ -110,10 +126,25 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::find($id);
+
+        $imgs = Product_img::where('product_id',$id)->delete();
+
         FilesController::deleteUpload($product->img_path);
         $product->delete();
 
         return redirect('/product');
 
     }
+
+
+    public function delete_img($img_id){
+        $img = Product_img::find($img_id);
+        FilesController::deleteUpload($img->img_path);
+        $product_id = $img->product_id;
+        $img->delete();
+
+        return redirect('/product/edit/'.$product_id);
+    }
 }
+
+

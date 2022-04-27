@@ -38,11 +38,13 @@
                     <img src="{{$product->img_path}}" alt="" style="width:300px;">
                     <label for="product_img">商品主要圖片上傳</label>
                     <input type="file" name="product_img" id="product_img" accept="image/*">
-
                     <div>目前的次要圖片</div>
-                    <div class="d-flex flex-wrap">
+                    <div class="d-flex flex-wrap align-items-start">
                         @foreach ($product->imgs as $item)
-                            <img src="{{$item->img_path}}" alt="" style="width: 150px" class="me-3">
+                        <div class="d-flex flex-column me-3" style="width: 150px;">
+                            <img src="{{$item->img_path}}" alt=""  class="w-100">
+                            <button class="btn btn-danger w-100" type="button" onclick="document.querySelector('#deleteForm{{$item->id}}').submit();">刪除圖片</button>
+                        </div>
                         @endforeach
                     </div>
                     <label for="second_img">商品次要圖片上傳</label>
@@ -65,6 +67,12 @@
                         <button class="btn btn-primary" type="submit">編輯商品</button>
                     </div>
                 </form>
+                @foreach ($product->imgs as $item)
+                    <form action="/product/delete_img/{{$item->id}}" method="post" hidden id="deleteForm{{$item->id}}">
+                        @method('DELETE')
+                        @csrf
+                    </form>
+                @endforeach
             </div>
         </div>
     </div>
