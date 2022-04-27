@@ -1,10 +1,11 @@
-@extends('shopping.template')
+@extends('template.template')
 
 @section('pageTitle')
     訂單第一頁
 @endsection
 
 @section('css')
+<link rel="stylesheet" href="{{asset('css/boostrap.css')}}">
     <link rel="stylesheet" href="{{asset('css/checkedout1.css')}}">
 @endsection
 
@@ -78,7 +79,7 @@
                             <div class="l-box d-flex">
                                 <!-- 商品照 -->
                                 <div class="goods-img">
-                                    <img src="{{asset('img/shopping-car-img/imgA.jpg')}}" alt="Goods-Photo">
+                                    <img src="{{asset('img/shopping-car-img/cute-cat.jpg')}}" alt="Goods-Photo">
                                 </div>
                                 <!-- 商品名稱&訂單編號 -->
                                 <div class="goods-info d-flex justify-content-center align-items-start">
@@ -100,7 +101,7 @@
                             <div class="l-box d-flex">
                                 <!-- 商品照 -->
                                 <div class="goods-img">
-                                    <img src="{{asset('img/homepage-img/imgA.jpg')}}" alt="Goods-Photo">
+                                    <img src="{{asset('img/shopping-car-img/cute-cat.jpg')}}" alt="Goods-Photo">
                                 </div>
                                 <!-- 商品名稱&訂單編號 -->
                                 <div class="goods-info d-flex justify-content-center align-items-start">
@@ -122,7 +123,7 @@
                             <div class="l-box d-flex">
                                 <!-- 商品照 -->
                                 <div class="goods-img">
-                                    <img src="{{asset('img/homepage-img/imgA.jpg')}}" alt="Goods-Photo">
+                                    <img src="{{asset('img/shopping-car-img/cute-cat.jpg')}}" alt="Goods-Photo">
                                 </div>
                                 <!-- 商品名稱&訂單編號 -->
                                 <div class="goods-info d-flex justify-content-center align-items-start">

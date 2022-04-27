@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer $id
- * @property string $created_at
- * @property string $updated_at
+ * @property mixed $created_at
+ * @property mixed $updated_at
  * @property string $img_path
  * @property float $img_opacity
  * @property integer $weight
