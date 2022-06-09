@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Product;
+use App\Models\ShoppingCart;
+use App\Models\Order;
+
+
+use Illuminate\Support\Facades\Auth;
 
 
 class Controller extends BaseController
@@ -33,6 +38,50 @@ class Controller extends BaseController
     }
 
 
+    public function product($id){
+        $product = Product::find($id);
+        return view('product-inside',compact('product'));
+    }
+
+
+    public function add_cart(Request $request){
+        $product = Product::find($request->product_id);
+        //檢查輸入的購買數量合理不合理
+        if ($request->add_qty > $product->product_qty){
+            $result = [
+                'result' => 'error',
+                'message'  => '欲購買數量超過庫存，請聯絡客服',
+            ];
+        }elseif ($request->add_qty < 1) {
+            $result = [
+                'result' => 'error',
+                'message'  => '購買數量異常，請重新確認',
+            ];
+        }elseif(!Auth::check()){
+        //檢查是否有登入 !Auth::check() 因為有加上! 反轉判斷結果, 所以現在 沒有登入 = true
+            $result = [
+                'result' => 'error',
+                'message'  => '尚未登入, 請先登入',
+            ];
+        }else{
+            ShoppingCart::create([
+                'product_id'=> $request->product_id,
+                'user_id'=> Auth::user()->id,
+                'qty'=> $request->add_qty,
+            ]);
+            $result = [
+                'result' => 'success',
+            ];
+        }
+        return $result;
+
+    }
+
+    public function delete_cart($id){
+
+        ShoppingCart::find($id)->delete();
+        return redirect('/shopping1');
+    }
     public function comment(){ // 這段comment功能的目的是為了抓取資料庫所有的留言回傳給頁面
 
         // 以下這行使用orderby將最新的排序到最前面後, 取出所有資料
@@ -94,5 +143,12 @@ class Controller extends BaseController
         Comment::where('id', $id)->delete();
 
         return redirect('/comment');
+    }
+
+    public function order_list(){
+
+        $orders = Order::where('user_id', Auth::id())->get();
+
+        return view('order_list',compact('orders'));
     }
 }

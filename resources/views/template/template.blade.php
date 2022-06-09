@@ -32,26 +32,45 @@
 
             <!-- 相關超連結 -->
             <ul class="nav justify-content-end align-content-center ">
+
                 <li class="nav-item">
-                    <a class="nav-link" href="/product">商品管理</a>
+                    <a class="nav-link" href="/comment">留言板</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/banner">Banner管理</a>
+                    <a class="nav-link" href="/shopping1">購物車</a>
+                </li>
+                @auth
+
+                {{-- 如果帳號是管理者  要顯示後台的連結 --}}
+
+                <li class="nav-item">
+                    <a href="/order_list" class="nav-link">訂單列表</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link">{{ Auth::user()->name}}, 您好</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/comment">留言板管理</a>
+                    <a class="nav-link" href="" onclick="event.preventDefault(); document.querySelector('#logout_form').submit()">登出</a>
+
+                    <form method="POST" action="{{ route('logout') }}" hidden id="logout_form">
+                        @csrf
+                    </form>
                 </li>
+                @if (Auth::user()->power == 1)
                 <li class="nav-item">
-                    <a class="nav-link" href="/shopping1"><i class="fa-solid fa-cart-shopping"></i></a>
+                    <a href="/dashboard" class="nav-link">後台</a>
                 </li>
+                @endif
+                @endauth
+                @guest
                 <li class="nav-item">
-                    <a class="user-icon nav-link " href="#">
-                        <i class=" fa-solid fa-circle-user tabindex='1'"></i>
+                    <a class="user-icon nav-link " href="/login">
+                        登入
                     </a>
-                    <div class="login-remind ">
-                        <P>登入</P>
-                    </div>
                 </li>
+                @endguest
+
             </ul>
             <!-- 漢堡連結 -->
             <div class="burger-link tabindex='1'">

@@ -1,4 +1,5 @@
-@extends('template.template')
+@extends('layouts.app')
+
 
 
 @section('pageTitle')
@@ -6,6 +7,9 @@
 @endsection
 
 @section('css')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
 <link rel="stylesheet" href="{{asset('css/boostrap.css')}}">
     <link rel="stylesheet" href="{{asset('css/checkedout3.css')}}">
     <style>
@@ -35,10 +39,10 @@
                 <form class="d-flex flex-column" action="/product/store" method="post" enctype="multipart/form-data"> <!--需跟route對應-->
                     @csrf
                     <label for="product_img">商品主要圖片上傳</label>
-                    <input type="file" name="product_img" id="product_img" accept="image/*">
+                    <input type="file" name="product_img" id="product_img" accept='image/*'>
 
                     <label for="second_img">商品次要圖片上傳</label>
-                    <input type="file" name="second_img[]" id="second_img" multiple accept="image/*">
+                    <input type="file" name="second_img[]" id="second_img" multiple accept='image/*'>
 
                     <label for="product_name">商品名稱</label>
                     <input type="text" name="product_name" id="product_name">

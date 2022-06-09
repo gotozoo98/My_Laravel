@@ -1,4 +1,4 @@
-@extends('template.template')
+@extends('layouts.app')
 
 
 @section('pageTitle')
@@ -6,6 +6,10 @@
 @endsection
 
 @section('css')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+<meta name="_token" content="{{ csrf_token() }}">
 <link rel="stylesheet" href="{{asset('css/boostrap.css')}}">
     <link rel="stylesheet" href="{{asset('css/checkedout3.css')}}">
     <style>
@@ -37,18 +41,18 @@
                     <div>目前的主要圖片</div>
                     <img src="{{$product->img_path}}" alt="" style="width:300px;">
                     <label for="product_img">商品主要圖片上傳</label>
-                    <input type="file" name="product_img" id="product_img" accept="image/*">
+                    <input type="file" name="product_img" id="product_img" accept='image/*'>
                     <div>目前的次要圖片</div>
                     <div class="d-flex flex-wrap align-items-start">
                         @foreach ($product->imgs as $item)
-                        <div class="d-flex flex-column me-3" style="width: 150px;">
-                            <img src="{{$item->img_path}}" alt=""  class="w-100">
-                            <button class="btn btn-danger w-100" type="button" onclick="document.querySelector('#deleteForm{{$item->id}}').submit();">刪除圖片</button>
+                        <div class="d-flex flex-column me-3" style="width:150px;" id="sup_img{{$item->id}}">
+                            <img src="{{$item->img_path}}" alt="" class=" w-100" >
+                            <button class="btn btn-danger w-100" type="button" onclick="delete_img({{$item->id}})">刪除圖片</button>
                         </div>
                         @endforeach
                     </div>
                     <label for="second_img">商品次要圖片上傳</label>
-                    <input type="file" name="second_img[]" id="second_img" multiple accept="image/*">
+                    <input type="file" name="second_img[]" id="second_img" multiple accept='image/*'>
 
                     <label for="product_name">商品名稱</label>
                     <input type="text" name="product_name" id="product_name" value="{{$product->product_name}}">
@@ -67,15 +71,36 @@
                         <button class="btn btn-primary" type="submit">編輯商品</button>
                     </div>
                 </form>
-                @foreach ($product->imgs as $item)
+                {{-- @foreach ($product->imgs as $item)
                     <form action="/product/delete_img/{{$item->id}}" method="post" hidden id="deleteForm{{$item->id}}">
                         @method('DELETE')
                         @csrf
                     </form>
-                @endforeach
+                @endforeach --}}
+
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+    <script>
+        function delete_img(id){
+                //準備表單以及內部的資料
+            let formData = new FormData();
+            formData.append('_method', 'DELETE');
+            formData.append('_token', '  {{ csrf_token() }}');
+                //將準備好的表單藉由fetch送到後台
+            fetch("/product/delete_img/"+id, {
+                method: "POST",
+                body: formData
+            }).then(function(response) {
+                //成功從資料庫刪除資料後, 將自己的HTML元素消除
+                let element = document.querySelector('#sup_img'+id)
+                element.parentNode.removeChild(element);
+            })
+        }
+    </script>
 @endsection
 

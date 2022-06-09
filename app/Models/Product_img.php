@@ -25,14 +25,15 @@ class Product_img extends Model
      */
     protected $fillable = ['img_path', 'product_id', 'created_at', 'updated_at'];
 
+    // 每一張商品圖片
+    public function product(){
 
-    public function imgs(){
-        //hasOne / hasMany 格式(對照的model::class, '對方的欄位','自己的欄位')
+
+        // hasOne / hasMany 格式 (對照的model::class, '對方的欄位', '自己的欄位')
         // $this->hasOne(Product::class,'id','product_id');
 
-
-        //belongsTo / belongsToMany 格式(對照的model::class','自己的欄位', '對方的欄位)
+        // 必定屬於某一個商品
+        // belongsTo / belongsToMany 格式 (對照的model::class, '自己的欄位', '對方的欄位')
         $this->belongsTo(Product::class,'product_id','id');
     }
-
 }
